@@ -53,15 +53,7 @@ jobs:
     # Skip if this is a push to a branch that has an active PR
     if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main' || needs.check-pr.outputs.has_pr != 'true'
     runs-on: ubuntu-latest
-    env:
-      HUGO_VERSION: 0.152.2
     steps:
-      - name: Install Hugo
-        run: |
-          snap install dart-sass-embedded
-          wget -O hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb
-          sudo dpkg -i hugo.deb
-
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -72,6 +64,12 @@ jobs:
           # For fork PRs, we need to fetch from the fork
           repository: ${{ github.event.pull_request.head.repo.full_name }}
 
+      - name: Install tools with mise
+        uses: jdx/mise-action@v3
+        with:
+          cache: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
