@@ -1,0 +1,24 @@
+{{ with .Site.Store.GetSortedMapValues "popups" }}
+    {{ range . }}
+        {{ $popupPath := . }}
+        {{ $popupId := path.Base $popupPath | strings.TrimSuffix ".md" }}
+        {{ $popupContent := readFile $popupPath }}
+        <div id="popup-{{ $popupId }}" class="uk-modal-container" uk-modal>
+            <div class="uk-modal-dialog">
+                <img 
+                src='{{ (resources.Get "images/x-icon.svg").RelPermalink }}' 
+                alt="open-modal" 
+                uk-img
+                class="ti-round-button ti-close-button uk-modal-close"
+            >
+            <div class="uk-modal-body uk-margin-auto-vertical" uk-overflow-auto>
+                <div class="ti-modal-body">
+                    {{ ( $.Site.GetPage (printf "popups/%s" $popupId) ).Content | safeHTML }}
+                </div>
+            </div>
+        </div>
+        </div>
+    {{ end }}
+{{ end }}
+
+

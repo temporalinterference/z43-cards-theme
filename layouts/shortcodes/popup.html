@@ -1,0 +1,8 @@
+{{ $popupId := .Get 0 }}
+{{ $popupPath := printf "content/popups/%s.md" $popupId }}
+{{ if fileExists $popupPath }}
+    {{ .Site.Store.SetInMap "popups" $popupId $popupPath }}
+    <a href="#popup-{{ $popupId }}" uk-toggle>{{ .Inner }}</a>
+{{ else }}
+    {{ errorf "Popup content file %s not found" $popupPath }}
+{{ end }}

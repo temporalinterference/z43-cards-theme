@@ -1,0 +1,17 @@
+name = "Z43 Cards Theme"
+license = "MIT"
+licenselink = "https://github.com/temporalinterference/z43-cards-theme/blob/main/LICENSE"
+description = "A card-based Hugo theme with UIKit integration, modal system, and horizontal scrolling"
+homepage = "https://github.com/temporalinterference/z43-cards-theme"
+demosite = "https://temporalinterference.com"
+tags = ["cards", "uikit", "modal", "responsive", "minimal"]
+features = ["card-based layout", "modal system", "horizontal scrolling", "UIKit framework"]
+min_version = "0.112.0"
+
+[author]
+  name = "Tobi Oetiker"
+  homepage = "https://oetiker.ch"
+
+[original]
+  name = "Kevin Eason"
+  homepage = "https://z43.swiss"

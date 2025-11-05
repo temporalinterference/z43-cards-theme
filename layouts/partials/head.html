@@ -1,0 +1,43 @@
+{{ .Site.Params.headercommentblock | safeHTML }}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>{{ block "title" . }}
+        {{ .Title }}
+        {{ end }}
+    </title>
+    {{ $description := .Description | default .Site.Params.description | default (printf "%s - Temporal Interference brain stimulation technology for tomorrow's treatments" .Site.Title) }}
+    <meta name="description" content="{{ $description | strings.TrimSuffix "\n" | htmlEscape }}">
+    {{ $sass := resources.Get "scss/theme.scss" }}
+    {{ $customScss := resources.Get "scss/custom.scss" }}
+    {{ $style := "" }}
+    {{ $sassOpts := dict "transpiler" "dartsass" "targetPath" "css/main.css" "includePaths" (slice "assets" "assets/uikit/src" "assets/uikit") }}
+    {{ if $customScss }}
+    {{ $combinedScss := printf "%s\n\n%s" $sass.Content $customScss.Content }}
+    {{ $style = ($combinedScss | resources.FromString "combined.scss") | resources.ExecuteAsTemplate "main.scss" . | toCSS $sassOpts | minify | fingerprint }}
+    {{ else }}
+    {{ $style = $sass | resources.ExecuteAsTemplate "main.scss" . | toCSS $sassOpts | minify | fingerprint }}
+    {{ end }}
+    {{ $secureStyle := $style | resources.Fingerprint "sha512" }}
+    <link rel="stylesheet" href="{{ $style.RelPermalink }}" integriety="{{ $style.Data.Integrity }}">
+    {{ $js := resources.Get "uikit/dist/js/uikit.min.js" }}
+    {{ $secureJS := $js | resources.Fingerprint "sha512" }}
+    <script src="{{ $js.RelPermalink }}" integrity="{{ $secureJS.Data.Integrity }}"></script>
+    {{ $jsIcons := resources.Get "uikit/dist/js/uikit-icons.min.js" }}
+    {{ $secureJsIcons := $jsIcons | resources.Fingerprint "sha512" }}
+    <script src="{{ $jsIcons.RelPermalink }}" integrity="{{ $secureJsIcons.Data.Integrity }}"></script>
+    {{ $customJs:= resources.Get "js/custom.js" }}
+    {{ $secureCustomJs := $customJs | resources.Fingerprint "sha512" }}
+    <script src="{{ $customJs.RelPermalink }}" integrity="{{ $secureCustomJs.Data.Integrity }}"></script>
+    {{ $favicon := $.Site.Params.favicon }}
+    {{ if $favicon }}
+    {{ $faviconPng := resources.Get (print "images/" $favicon ".png") }}
+    {{ $faviconSvg := resources.Get (print "images/" $favicon ".svg") }}
+    {{ if $faviconPng }}
+    <link rel="icon" href='{{ $faviconPng.RelPermalink }}' sizes="any">
+    {{ end }}
+    {{ if $faviconSvg }}
+    <link rel="icon" href='{{ $faviconSvg.RelPermalink }}' type="image/svg+xml">
+    {{ end }}
+    {{ end }}
+</head>

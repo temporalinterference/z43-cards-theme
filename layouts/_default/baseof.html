@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.Language.Lang }}">
+{{- partial "head.html" . -}}
+<body>
+    {{- partial "header.html" . -}}
+    {{- partial "measure.html" . -}}
+    {{- block "main" . }}{{- end }}
+    {{- partial "footer.html" . -}}
+    {{- partial "openLinkExternal.html" . -}}
+    {{- partial "popup-modals.html" . -}}
+    {{- partial "gtag.html" . -}}
+</body>
+</html>

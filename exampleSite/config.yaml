@@ -1,0 +1,76 @@
+# Example configuration for Z43 Cards Theme
+# Copy and customize this file for your site
+
+baseURL: https://example.com
+languageCode: en-us
+title: My Site Title
+
+# Disable taxonomies if not needed
+disableKinds:
+  - taxonomy
+
+# Theme configuration
+module:
+  imports:
+    - path: github.com/temporalinterference/z43-cards-theme
+
+params:
+  # Site description (used in meta tags)
+  description: |
+    Your site description here. Used for SEO and social media sharing.
+
+  # Optional header comment block (HTML comment in <head>)
+  headercommentblock: |
+    <!-- ######################################
+         Content:         Your Site Name
+         Graphic Design:  Designer Name
+         Implementation:  Developer Name
+         ###################################### -->
+
+  # Color scheme - customize these to match your brand
+  colors:
+    background: "#e0e8f0"           # Page background color
+    emphasis: "#1b3764"             # Primary brand color (headings, footer)
+    muted: "#888888"                # Muted text color
+    link: "#1485b5"                 # Link color
+    cardBackground: "#fff"          # Card background color
+    navbarBackground: "#fff"        # Navigation bar background
+    offcanvasBackground: "#1b3764"  # Mobile menu background
+    inverseNavItem: "#e0e8f0"       # Mobile menu text color
+    inverseNavSubitem: "#e0e8f0"    # Mobile menu subitem color
+
+  # Font configuration
+  fonts:
+    # Body font (system fonts by default)
+    body: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif"
+    # Heading font (serif by default)
+    heading: "Georgia, 'Times New Roman', Times, serif"
+    # Font size
+    size: "18px"
+    # Line height
+    lineHeight: "1.2"
+
+  # Card dimensions (optional, defaults provided)
+  card:
+    width: "348px"
+    height: "557px"
+
+  # Favicon configuration (optional)
+  # Place your favicon files in assets/images/
+  favicon: "favicon"  # Will look for favicon.png and favicon.svg
+
+# Goldmark (Markdown) configuration
+ignoreLogs:
+  - warning-goldmark-raw-html
+
+markup:
+  goldmark:
+    extensions:
+      extras:
+        delete:
+          enable: true
+        subscript:
+          enable: true
+        superscript:
+          enable: true
+      strikethrough: false

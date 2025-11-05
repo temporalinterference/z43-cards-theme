@@ -1,0 +1,8 @@
+<footer id="footer" class="sovbb-footer">
+    <div class="uk-container-expand">
+        <div class="uk-container uk-container-xsmall uk-margin-top uk-margin-bottom">
+            <img src='{{ (resources.Get "images/logo-white.svg").RelPermalink }}' alt="logo" class="uk-navbar-item ti-logo">
+            {{ ( .Site.GetPage "footer" ).Content }}
+        </div>
+    </div>
+</footer>

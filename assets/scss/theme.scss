@@ -1,0 +1,411 @@
+// Z43 Cards Theme - Main SCSS File
+// This theme uses Hugo parameters for customization
+// Site-specific variables should be defined in config.yaml under params
+
+// 1. Custom variables with Hugo parameter fallbacks
+
+// Font families (system fonts as default)
+$global-font-family: {{ .Site.Params.fonts.body | default "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" }};
+$global-font-family-heading: {{ .Site.Params.fonts.heading | default "Georgia, 'Times New Roman', Times, serif" }};
+$global-font-size: {{ .Site.Params.fonts.size | default "18px" }};
+$global-line-height: {{ .Site.Params.fonts.lineHeight | default "1.2" }};
+
+// Card dimensions
+$card-width: {{ .Site.Params.card.width | default "348px" }};
+$card-height: {{ .Site.Params.card.height | default "557px" }};
+
+// Color scheme
+$global-background: {{ .Site.Params.colors.background | default "#e0e8f0" }};
+$global-emphasis-color: {{ .Site.Params.colors.emphasis | default "#1b3764" }};
+$global-muted-color: {{ .Site.Params.colors.muted | default "#888888" }};
+$base-link-color: {{ .Site.Params.colors.link | default "#1485b5" }};
+$card-background: {{ .Site.Params.colors.cardBackground | default "#fff" }};
+$navbar-background: {{ .Site.Params.colors.navbarBackground | default "#fff" }};
+$base-em-color: inherit;
+$offcanvas-bar-background: {{ .Site.Params.colors.offcanvasBackground | default "#1b3764" }};
+$inverse-nav-primary-item-color: {{ .Site.Params.colors.inverseNavItem | default "#e0e8f0" }};
+$inverse-nav-primary-sublist-item-color: {{ .Site.Params.colors.inverseNavSubitem | default "#e0e8f0" }};
+
+// UIKit overrides
+$navbar-nav-item-height: 50px;
+$container-xsmall-max-width: 720px !default;
+$modal-container-width: 778px !default;
+
+// Breakpoints (from UIKit)
+$breakpoint-small: 640px;
+
+// 2. Import default variables and available mixins from UIKit
+@import "../uikit/src/scss/variables-theme.scss";
+@import "../uikit/src/scss/mixins-theme.scss";
+
+// 3. Custom mixin overwrites
+@mixin hook-offcanvas-bar() {
+  font-family: $global-font-family-heading;
+}
+
+@mixin hook-offcanvas-close() {
+  svg line {
+    color: $inverse-nav-primary-item-color;
+  }
+}
+
+@mixin hook-navbar-toggle-icon() {
+  svg {
+    fill: $global-emphasis-color;
+  }
+}
+
+// 4. Import UIkit
+@import "../uikit/src/scss/uikit-theme.scss";
+
+// 5. Card system styles
+.ti-card-holder {
+  display: flex;
+  justify-content: left;
+  flex-direction: row;
+  margin-top: 24px;
+  margin-bottom: 38px;
+  column-gap: 24px;
+  padding-left: var(--ti-margin-measure-left);
+  padding-right: var(--ti-margin-measure-right);
+  overflow-x: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-behavior: smooth;
+  padding-bottom: 10px;
+}
+
+.ti-card-holder::-webkit-scrollbar {
+  display: none;
+}
+
+.ti-logo {
+  padding-top: 7px;
+  padding-bottom: 7px;
+  height: 46px;
+  min-height: 46px;
+}
+
+.ti-card {
+  width: $card-width;
+  max-width: 85vw;
+  height: $card-height;
+  flex-grow: 0;
+  flex-shrink: 0;
+  border-radius: 0px;
+  background-color: $card-background;
+  padding: 0px;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+
+  h3 {
+    padding: 20px;
+    padding-bottom: 0;
+    font-size: 1.3rem;
+    font-family: $global-font-family-heading;
+    color: $global-emphasis-color;
+    margin: 0;
+  }
+
+  .ti-card-body {
+    padding: 20px;
+    padding-top: 10px;
+    overflow: hidden;
+
+    a {
+      color: $base-link-color;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    &.ti-card-fadeout::after {
+      content: "";
+      display: block;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 80px;
+      pointer-events: none;
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, $card-background 100%);
+    }
+  }
+
+  .ti-card-button {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+  }
+}
+
+// 6. Typography utilities
+.ti-hyphenate {
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+
+.ti-hyphenate-mobile {
+  @media (max-width: $breakpoint-small) {
+    hyphens: auto;
+    -webkit-hyphens: auto;
+  }
+}
+
+.ti-nobreak {
+  white-space: nowrap;
+}
+
+.ti-title {
+  font-size: 1.8rem;
+
+  @media (min-width: $breakpoint-small) {
+    font-size: 3rem;
+  }
+
+  font-family: $global-font-family-heading;
+  color: $global-emphasis-color;
+  margin: 0;
+}
+
+.ti-claim {
+  margin: 0;
+  color: $global-muted-color;
+  text-align: right;
+}
+
+// 7. Media elements
+.ti-movie {
+  margin-top: 48px;
+  margin-bottom: 48px;
+}
+
+// 8. Modal styles
+.ti-modal-body {
+  overflow-x: hidden;
+
+  h1 {
+    font-size: 2.3rem;
+    font-family: $global-font-family-heading;
+    color: $global-emphasis-color;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 2ex;
+  }
+
+  h2 {
+    font-size: 1.6rem;
+    font-family: $global-font-family-heading;
+    color: $global-emphasis-color;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 1ex;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+
+    th {
+      font-family: $global-font-family-heading;
+      padding: 8px;
+    }
+
+    td {
+      padding: 8px;
+    }
+
+    td:nth-child(1) {
+      font-weight: 500;
+    }
+
+    tr {
+      border-bottom: 2px solid rgb(255, 255, 255);
+    }
+  }
+
+  .ti-image-text {
+    margin-bottom: 6ex;
+    overflow: hidden;
+    font-size: 0.9rem;
+
+    @media (max-width: $breakpoint-small) {
+      >div {
+        margin-top: 2ex;
+      }
+    }
+
+    @media (min-width: $breakpoint-small) {
+      >img {
+        width: 50%;
+        float: left;
+        margin-right: 20px;
+        margin-bottom: 20px;
+
+        &.ti-image-right {
+          float: right;
+          margin-right: 0;
+          margin-left: 20px;
+        }
+      }
+    }
+  }
+
+  .ti-image-text-one-third {
+    @media (min-width: $breakpoint-small) {
+      >img {
+        width: 33%;
+      }
+    }
+  }
+}
+
+// 9. Section styles
+.ti-section {
+  margin-top: 48px;
+  margin-bottom: 24px;
+
+  h2 {
+    font-size: 1.6rem;
+
+    @media (min-width: $breakpoint-small) {
+      font-size: 2.3rem;
+    }
+
+    font-family: $global-font-family-heading;
+    color: $global-emphasis-color;
+    padding: 0;
+    margin: 0;
+  }
+}
+
+// 10. Button styles
+.ti-round-button {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  padding: 0px;
+  margin: 0px;
+}
+
+.ti-close-button {
+  top: 20px;
+  right: 20px;
+}
+
+.ti-plus-button {
+  bottom: 20px;
+  right: 20px;
+}
+
+.ti-left-button {
+  top: 50%;
+  left: calc(var(--ti-margin-measure-left) + 20px);
+  transform: translateY(-50%);
+}
+
+.ti-right-button {
+  top: 50%;
+  right: calc(var(--ti-margin-measure-right) + 20px);
+  transform: translateY(-50%);
+}
+
+// 11. Footer styles
+footer {
+  margin-top: 3rem;
+  background-color: $global-emphasis-color;
+  font-family: $global-font-family-heading;
+  color: #fff;
+  padding: 20px;
+  font-size: 0.8rem;
+}
+
+// 12. Slider styles
+.ti-slider {
+  margin-top: 48px;
+  margin-bottom: 48px;
+  background-color: #fff;
+  padding-left: 0;
+  padding-right: 0;
+
+  .ti-slider-image {
+    width: var(--ti-content-width);
+  }
+
+  .ti-grey-filter {
+    background-color: rgba(255, 255, 255, 0.4);
+    backdrop-filter: saturate(30%);
+    height: 100%;
+    position: absolute;
+    top: 0;
+  }
+
+  .ti-filter-left {
+    left: 0;
+    width: var(--ti-margin-measure-left);
+  }
+
+  .ti-filter-right {
+    width: var(--ti-margin-measure-right);
+    right: 0;
+  }
+}
+
+// 13. Brain animation (if used)
+#ti-brain {
+  margin-top: 6ex;
+  position: relative;
+}
+
+#ti-brain-box {
+  position: relative;
+  z-index: -1;
+  margin-bottom: -30%;
+
+  img {
+    width: 100%;
+  }
+}
+
+#ti-brain-spot {
+  position: absolute;
+  background-image: radial-gradient(circle at center,
+      #0084b4,
+      rgba(25, 195, 252, 0.5) 20.5%,
+      rgba(255, 255, 255, 0) 34.71%);
+  width: 35%;
+  height: 30%;
+  top: 15%;
+  right: 40%;
+  transform: rotate(10deg);
+  transform-origin: 90% 130%;
+  animation-duration: 7s;
+  animation-iteration-count: infinite;
+  animation-direction: normal;
+  animation-name: brain-spot;
+  animation-timing-function: ease-in-out;
+  will-change: transform, opacity;
+}
+
+@keyframes brain-spot {
+  from {
+    opacity: 0;
+    transform: rotate(35deg);
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  90% {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+    transform: rotate(-40deg);
+  }
+}
