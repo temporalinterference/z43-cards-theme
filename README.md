@@ -258,22 +258,6 @@ git submodule update --init --recursive
 hugo server -s exampleSite
 ```
 
-### Building UIKit (if needed)
-
-The theme includes pre-built UIKit assets. To rebuild:
-
-```bash
-cd assets/uikit
-npm install
-npm run build
-```
-
-## Browser Support
-
-- Modern browsers (Chrome, Firefox, Safari, Edge)
-- Mobile browsers (iOS Safari, Chrome Mobile)
-- Requires JavaScript for modal and scrolling features
-
 ## Deployment
 
 The theme includes a reusable GitHub Actions workflow for deploying to GitHub Pages with branch previews.
