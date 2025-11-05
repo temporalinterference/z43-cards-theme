@@ -290,11 +290,3 @@ See [DEPLOYMENT.md](DEPLOYMENT.md) for complete setup instructions and configura
 
 MIT License - see LICENSE file for details
 
-## Support
-
-- **Issues**: [GitHub Issues](https://github.com/temporalinterference/z43-cards-theme/issues)
-- **Documentation**: [GitHub Wiki](https://github.com/temporalinterference/z43-cards-theme/wiki)
-
-## Changelog
-
-See [CHANGELOG.md](CHANGELOG.md) for version history and updates.
