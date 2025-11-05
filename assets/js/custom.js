@@ -31,9 +31,94 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /* Handle scrolling for each card holder */
     const cardHolders = document.querySelectorAll('.ti-card-holder');
-    
+
     cardHolders.forEach((cardHolder) => {
-        // Disable smooth scrolling behavior
+        const wrapper = cardHolder.closest('.ti-card-holder-wrapper');
+        const leftArrow = wrapper?.querySelector('.ti-nav-left');
+        const rightArrow = wrapper?.querySelector('.ti-nav-right');
+
+        // Count cards to determine if navigation is needed
+        const cardCount = cardHolder.querySelectorAll('.ti-card').length;
+        const needsNavigation = cardCount > 3;
+
+        // Function to update arrow visibility and opacity
+        const updateArrows = () => {
+            if (!needsNavigation || !leftArrow || !rightArrow) return;
+
+            const maxScroll = cardHolder.scrollWidth - cardHolder.clientWidth;
+            const currentScroll = cardHolder.scrollLeft;
+
+            // Show arrows only if there's scrollable content
+            if (maxScroll > 0) {
+                leftArrow.style.display = 'block';
+                rightArrow.style.display = 'block';
+
+                // Left arrow: 50% opacity at start, 100% when scrolled
+                const leftOpacity = currentScroll <= 10 ? 0.5 : 1;
+                leftArrow.style.opacity = leftOpacity;
+
+                // Right arrow: 100% opacity at start, 50% at end
+                const rightOpacity = currentScroll >= maxScroll - 10 ? 0.5 : 1;
+                rightArrow.style.opacity = rightOpacity;
+            } else {
+                leftArrow.style.display = 'none';
+                rightArrow.style.display = 'none';
+            }
+        };
+
+        // Initial arrow update
+        updateArrows();
+
+        // Update arrows on scroll
+        cardHolder.addEventListener('scroll', updateArrows);
+
+        // Update arrows on window resize
+        window.addEventListener('resize', updateArrows);
+
+        // Handle arrow clicks with quick smooth scrolling
+        const quickScroll = (direction) => {
+            const cardWidth = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--ti-card-width') || '348px');
+            const gap = 24;
+            const scrollAmount = cardWidth + gap; // Scroll by one card width
+
+            // Use requestAnimationFrame for quick but smooth scrolling
+            const start = cardHolder.scrollLeft;
+            const target = start + (direction * scrollAmount);
+            const duration = 300; // 300ms for quick scroll
+            const startTime = performance.now();
+
+            const animateScroll = (currentTime) => {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+
+                // Ease out cubic for smooth deceleration
+                const easeOut = 1 - Math.pow(1 - progress, 3);
+
+                cardHolder.scrollLeft = start + (target - start) * easeOut;
+
+                if (progress < 1) {
+                    requestAnimationFrame(animateScroll);
+                }
+            };
+
+            requestAnimationFrame(animateScroll);
+        };
+
+        if (leftArrow) {
+            leftArrow.addEventListener('click', (e) => {
+                e.preventDefault();
+                quickScroll(-1);
+            });
+        }
+
+        if (rightArrow) {
+            rightArrow.addEventListener('click', (e) => {
+                e.preventDefault();
+                quickScroll(1);
+            });
+        }
+
+        // Disable smooth scrolling behavior for drag/wheel
         cardHolder.style.scrollBehavior = 'auto';
         
         let isPointerDown = false;
@@ -167,6 +252,15 @@ function setupModalHandlers(element) {
         if (!isProgrammaticModalOperation && modalId && window.location.hash !== `#${modalId}`) {
             isModalTransition = true;
             history.pushState(modalId, document.title, `#${modalId}`);
+
+            // Track modal open in Google Analytics
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'modal_open', {
+                    'modal_id': modalId,
+                    'page_location': window.location.href,
+                    'page_title': document.title
+                });
+            }
         }
     });
 
@@ -176,6 +270,15 @@ function setupModalHandlers(element) {
             // Check if this is a transition to another modal
             const otherModalOpening = document.querySelector('.uk-modal:not(.uk-modal-hiding)');
             isModalTransition = !!otherModalOpening;
+
+            // Track modal close in Google Analytics (only if not transitioning to another modal)
+            if (!isModalTransition && typeof gtag !== 'undefined') {
+                gtag('event', 'modal_close', {
+                    'modal_id': modalId,
+                    'page_location': window.location.pathname
+                });
+            }
+
             removeHash();
         }
     });

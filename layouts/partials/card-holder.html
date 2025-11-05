@@ -1,3 +1,17 @@
-<div class="ti-card-holder uk-container uk-container-expand">
-    {{ . }}
+<div class="ti-card-holder-wrapper">
+    <button class="ti-nav-arrow ti-nav-left" aria-label="Scroll left">
+        {{ $leftArrow := resources.Get "images/left-arrow.svg" }}
+        {{ with $leftArrow }}
+            {{ .Content | safeHTML }}
+        {{ end }}
+    </button>
+    <div class="ti-card-holder uk-container uk-container-expand">
+        {{ . }}
+    </div>
+    <button class="ti-nav-arrow ti-nav-right" aria-label="Scroll right">
+        {{ $rightArrow := resources.Get "images/right-arrow.svg" }}
+        {{ with $rightArrow }}
+            {{ .Content | safeHTML }}
+        {{ end }}
+    </button>
 </div>

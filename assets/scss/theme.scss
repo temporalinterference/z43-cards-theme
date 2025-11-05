@@ -59,12 +59,21 @@ $breakpoint-small: 640px;
 @import "../uikit/src/scss/uikit-theme.scss";
 
 // 5. Card system styles
+:root {
+  --ti-card-width: #{$card-width};
+}
+
+.ti-card-holder-wrapper {
+  position: relative;
+  margin-bottom: 60px; // Add space for navigation arrows below
+}
+
 .ti-card-holder {
   display: flex;
   justify-content: left;
   flex-direction: row;
   margin-top: 24px;
-  margin-bottom: 38px;
+  margin-bottom: 0; // Remove bottom margin, handled by wrapper
   column-gap: 24px;
   padding-left: var(--ti-margin-measure-left);
   padding-right: var(--ti-margin-measure-right);
@@ -77,6 +86,42 @@ $breakpoint-small: 640px;
 
 .ti-card-holder::-webkit-scrollbar {
   display: none;
+}
+
+.ti-nav-arrow {
+  position: absolute;
+  bottom: -50px; // Position below the card row
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  z-index: 10;
+  transition: opacity 0.3s ease;
+  display: none; // Hidden by default, shown by JS when needed
+
+  svg {
+    width: 30px;
+    height: 30px;
+    display: block;
+  }
+
+  &:hover {
+    opacity: 1 !important;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.ti-nav-left {
+  // Position near right edge of card #3 (3 cards + 2 gaps - small offset from edge)
+  left: calc(var(--ti-margin-measure-left) + ($card-width * 3) + (24px * 2) - 70px);
+}
+
+.ti-nav-right {
+  // Position next to left arrow with small gap
+  left: calc(var(--ti-margin-measure-left) + ($card-width * 3) + (24px * 2) - 70px + 30px + 20px);
 }
 
 .ti-logo {

@@ -59,6 +59,9 @@ params:
   # Place your favicon files in assets/images/
   favicon: "favicon"  # Will look for favicon.png and favicon.svg
 
+  # Google Analytics (optional)
+  # googleAnalyticsId: "G-XXXXXXXXXX"  # Uncomment and set your GA4 measurement ID
+
 # Goldmark (Markdown) configuration
 ignoreLogs:
   - warning-goldmark-raw-html

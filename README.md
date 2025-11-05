@@ -53,11 +53,14 @@ module:
     - path: github.com/temporalinterference/z43-cards-theme
 ```
 
-3. Initialize the module:
+3. Fetch the module and initialize the theme:
 
 ```bash
 hugo mod get -u
+bash $(hugo mod graph | grep z43-cards-theme | awk '{print $2}')/init-theme.sh
 ```
+
+> **Note:** The second command initializes the UIKit submodule which is required for the theme to work. This only needs to be run once after installing the theme.
 
 ### Using Git Submodule
 
