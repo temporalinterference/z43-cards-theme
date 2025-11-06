@@ -57,10 +57,10 @@ module:
 
 ```bash
 hugo mod get -u
-bash $(hugo mod graph | grep z43-cards-theme | awk '{print $2}')/init-theme.sh
+bash "$(hugo config mounts | jq -rs '.[] | select(.path | contains("z43-cards-theme")) | .dir')/init-theme.sh"
 ```
 
-> **Note:** The second command initializes the UIKit submodule which is required for the theme to work. This only needs to be run once after installing the theme.
+> **Note:** The second command initializes the UIKit dependency which is required for the theme to work. This only needs to be run once after installing the theme.
 
 ### Using Git Submodule
 

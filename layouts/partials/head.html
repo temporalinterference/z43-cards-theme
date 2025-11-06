@@ -12,7 +12,7 @@
     {{/* Check if UIKit submodule is initialized */}}
     {{ $uikitCheck := resources.Get "uikit/package.json" }}
     {{ if not $uikitCheck }}
-        {{ errorf "\n\n❌ UIKit submodule not initialized!\n\nThe z43-cards-theme requires UIKit to be initialized.\n\nTo fix this, run:\n  bash $(hugo mod graph | grep z43-cards-theme | awk '{print $2}')/init-theme.sh\n\nOr if you cloned the theme directly:\n  git submodule update --init --recursive\n\nSee https://github.com/temporalinterference/z43-cards-theme#installation for details.\n" }}
+        {{ errorf "\n\n❌ UIKit submodule not initialized!\n\nThe z43-cards-theme requires UIKit to be initialized.\n\nTo fix this, run:\n  bash \"$(hugo config mounts | jq -rs '.[] | select(.path | contains(\"z43-cards-theme\")) | .dir')/init-theme.sh\"\n\nOr if you cloned the theme directly:\n  git submodule update --init --recursive\n\nSee https://github.com/temporalinterference/z43-cards-theme#installation for details.\n" }}
     {{ end }}
 
     {{ $sass := resources.Get "scss/theme.scss" }}

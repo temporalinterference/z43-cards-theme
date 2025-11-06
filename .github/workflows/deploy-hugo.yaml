@@ -73,21 +73,10 @@ jobs:
       - name: Initialize Hugo modules and theme
         run: |
           # Get Hugo modules
-          hugo mod get -u || true
+          hugo mod get -u
 
-          # Initialize theme submodules (UIKit)
-          # Find the theme in the module cache and initialize its submodules
-          THEME_PATH=$(hugo mod graph 2>/dev/null | grep z43-cards-theme | awk '{print $2}' | head -1)
-
-          if [ ! -z "$THEME_PATH" ] && [ -d "$THEME_PATH" ]; then
-            echo "Initializing theme at: $THEME_PATH"
-            cd "$THEME_PATH"
-            if [ -f ".gitmodules" ]; then
-              git submodule update --init --recursive
-            fi
-          else
-            echo "Theme not found in module cache, submodules should be initialized via checkout"
-          fi
+          # Initialize theme UIKit dependency using the theme's init script
+          bash "$(hugo config mounts | jq -rs '.[] | select(.path | contains("z43-cards-theme")) | .dir')/init-theme.sh"
 
       - name: Setup Pages
         id: pages

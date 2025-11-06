@@ -7,25 +7,8 @@ set -e
 
 echo "🎨 Initializing Z43 Cards Theme..."
 
-# Determine the theme directory
-# If running from the theme directory itself
-if [ -f "go.mod" ] && grep -q "z43-cards-theme" go.mod; then
-    THEME_DIR="."
-else
-    # If running from a Hugo site, find the theme in the module cache
-    THEME_DIR=$(hugo mod graph 2>/dev/null | grep z43-cards-theme | awk '{print $2}' | head -1)
-
-    if [ -z "$THEME_DIR" ]; then
-        echo "❌ Could not find z43-cards-theme module."
-        echo "   Make sure you have added the theme to your config.yaml:"
-        echo "   module:"
-        echo "     imports:"
-        echo "       - path: github.com/temporalinterference/z43-cards-theme"
-        echo ""
-        echo "   Then run: hugo mod get"
-        exit 1
-    fi
-fi
+# Determine the theme directory - use the directory where this script lives
+THEME_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 echo "📁 Theme directory: $THEME_DIR"
 
@@ -35,16 +18,34 @@ if [ -f "$THEME_DIR/assets/uikit/package.json" ]; then
     exit 0
 fi
 
+# Check if we're in a read-only Hugo module cache
+if [ ! -w "$THEME_DIR" ]; then
+    echo "⚠️  Theme directory is read-only (Hugo module cache)"
+    echo "📦 Making theme writable and fetching UIKit..."
+
+    # Make the directory writable
+    chmod -R u+w "$THEME_DIR"
+fi
+
 # Initialize the UIKit submodule
 echo "📦 Fetching UIKit submodule..."
-cd "$THEME_DIR"
 
-if [ ! -f ".gitmodules" ]; then
+if [ ! -f "$THEME_DIR/.gitmodules" ]; then
     echo "❌ Error: .gitmodules not found in theme directory"
     exit 1
 fi
 
-git submodule update --init --recursive
+# Check if this is a git repository
+if [ -d "$THEME_DIR/.git" ]; then
+    # We're in a git repo, use git submodule
+    cd "$THEME_DIR"
+    git submodule update --init --recursive
+else
+    # We're in Hugo module cache (no .git), clone UIKit directly
+    echo "📥 Cloning UIKit directly (not a git repository)..."
+    UIKIT_URL=$(grep -A2 "assets/uikit" "$THEME_DIR/.gitmodules" | grep url | awk '{print $3}')
+    git clone --depth 1 "$UIKIT_URL" "$THEME_DIR/assets/uikit"
+fi
 
 echo "✅ Theme initialization complete!"
 echo ""

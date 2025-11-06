@@ -166,11 +166,14 @@ title: Home
 {{< /card-holder >}}
 ```
 
-## Step 7: Run Locally
+## Step 7: Initialize and Run
 
 ```bash
 # Download theme
 hugo mod get -u
+
+# Initialize UIKit (one-time setup)
+bash "$(hugo config mounts | jq -rs '.[] | select(.path | contains("z43-cards-theme")) | .dir')/init-theme.sh"
 
 # Start server
 hugo server
