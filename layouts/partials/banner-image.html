@@ -1,0 +1,14 @@
+<div id="banner-image-container">
+    <div class="uk-container uk-container-xsmall">
+        {{ $img := .Page.Resources.Get .image }}
+        {{ if $img }}
+            <img src="{{ $img.RelPermalink }}" alt="Banner Image">
+        {{ else }}
+            <!-- Fallback to assets if not in page bundle -->
+            {{ $imgAsset := resources.Get (printf "images/%s" .image) }}
+            {{ if $imgAsset }}
+                <img src="{{ $imgAsset.RelPermalink }}" alt="Banner Image">
+            {{ end }}
+        {{ end }}
+    </div>
+</div>

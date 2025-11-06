@@ -454,3 +454,18 @@ footer {
     transform: rotate(-40deg);
   }
 }
+
+// 14. Banner image (2-card width)
+#banner-image-container {
+  margin-top: 6ex;
+  margin-bottom: 6ex;
+  position: relative;
+
+  .uk-container {
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+  }
+}
