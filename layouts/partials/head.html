@@ -20,8 +20,13 @@
     {{ $style := "" }}
     {{ $sassOpts := dict "transpiler" "dartsass" "targetPath" "css/main.css" "includePaths" (slice "assets" "assets/uikit/src" "assets/uikit") }}
     {{ if $customScss }}
-    {{ $combinedScss := printf "%s\n\n%s" $sass.Content $customScss.Content }}
-    {{ $style = ($combinedScss | resources.FromString "combined.scss") | resources.ExecuteAsTemplate "main.scss" . | toCSS $sassOpts | minify | fingerprint }}
+    {{ $sassHash := sha256 $sass.Content }}
+    {{ $customHash := sha256 $customScss.Content }}
+    {{ $combinedHash := printf "%s-%s" $sassHash $customHash }}
+    {{ $sassProcessed := $sass | resources.ExecuteAsTemplate (printf "theme-%s.scss" $sassHash) . }}
+    {{ $customProcessed := $customScss | resources.ExecuteAsTemplate (printf "custom-%s.scss" $customHash) . }}
+    {{ $combinedScss := printf "%s\n\n%s" $sassProcessed.Content $customProcessed.Content }}
+    {{ $style = ($combinedScss | resources.FromString (printf "combined-%s.scss" $combinedHash)) | toCSS $sassOpts | minify | fingerprint }}
     {{ else }}
     {{ $style = $sass | resources.ExecuteAsTemplate "main.scss" . | toCSS $sassOpts | minify | fingerprint }}
     {{ end }}
