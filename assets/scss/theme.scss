@@ -142,7 +142,7 @@ $breakpoint-small: 640px;
   padding: 0px;
   box-sizing: border-box;
   position: relative;
-  overflow: hidden;
+  overflow: clip;
 
   h3 {
     padding: 20px;
@@ -156,7 +156,7 @@ $breakpoint-small: 640px;
   .ti-card-body {
     padding: 20px;
     padding-top: 10px;
-    overflow: hidden;
+    overflow: clip;
 
     a {
       color: $base-link-color;
@@ -230,7 +230,7 @@ $breakpoint-small: 640px;
 
 // 8. Modal styles
 .ti-modal-body {
-  overflow-x: hidden;
+  overflow-x: clip;
 
   h1 {
     font-size: 2.3rem;
@@ -274,7 +274,7 @@ $breakpoint-small: 640px;
 
   .ti-image-text {
     margin-bottom: 6ex;
-    overflow: hidden;
+    overflow: clip;
     font-size: 0.9rem;
 
     @media (max-width: $breakpoint-small) {
