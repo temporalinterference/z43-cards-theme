@@ -230,7 +230,7 @@ $breakpoint-small: 640px;
 
 // 8. Modal styles
 .ti-modal-body {
-  overflow-x: clip;
+  overflow-x: hidden;
 
   h1 {
     font-size: 2.3rem;
@@ -274,7 +274,7 @@ $breakpoint-small: 640px;
 
   .ti-image-text {
     margin-bottom: 6ex;
-    overflow: clip;
+    overflow: hidden;
     font-size: 0.9rem;
 
     @media (max-width: $breakpoint-small) {
