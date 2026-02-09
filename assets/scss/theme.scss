@@ -115,13 +115,13 @@ $breakpoint-small: 640px;
 }
 
 .ti-nav-left {
-  // Position near right edge of card #3 (3 cards + 2 gaps - small offset from edge)
-  left: calc(var(--ti-margin-measure-left) + ($card-width * 3) + (24px * 2) - 70px);
+  // Position near right edge of card #2 (2 cards + 1 gap - small offset from edge)
+  left: calc(var(--ti-margin-measure-left) + ($card-width * 2) + 24px - 70px);
 }
 
 .ti-nav-right {
   // Position next to left arrow with small gap
-  left: calc(var(--ti-margin-measure-left) + ($card-width * 3) + (24px * 2) - 70px + 30px + 20px);
+  left: calc(var(--ti-margin-measure-left) + ($card-width * 2) + 24px - 70px + 30px + 20px);
 }
 
 .ti-logo {
