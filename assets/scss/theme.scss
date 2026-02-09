@@ -121,7 +121,7 @@ $breakpoint-small: 640px;
 
 .ti-nav-right {
   // Position next to left arrow with small gap
-  left: calc(var(--ti-margin-measure-left) + ($card-width * 2) + 24px - 70px + 30px + 20px);
+  left: calc(var(--ti-margin-measure-left) + ($card-width * 2) + 24px - 70px + 30px + 10px);
 }
 
 .ti-logo {
