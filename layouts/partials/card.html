@@ -45,7 +45,7 @@
     </div>
   {{ end }}
 
-  <h3 class="{{ if .Params.hyphenate_mobile }}ti-hyphenate-mobile{{ end }}">{{ .Title | safe.HTML }}</h3>
+  <h3 class="{{ if .Params.hyphenate_mobile }}ti-hyphenate-mobile{{ end }}">{{ .Title | markdownify }}</h3>
 
   <div class="ti-card-body {{ if not $bg }}ti-card-fadeout{{ end }}">
     {{ .Content | safe.HTML }}
