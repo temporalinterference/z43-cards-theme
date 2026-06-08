@@ -1,4 +1,5 @@
 <figure>
-<img src='{{ ((.image.Resize "1500x").Process "webp").RelPermalink }}' alt="{{ .image.Name }}" uk-img>
+{{ $src := ((.image.Resize "1500x").Process "webp").RelPermalink }}
+{{ if .href }}<a href="{{ .href }}"><img src='{{ $src }}' alt="{{ .image.Name }}" uk-img></a>{{ else }}<img src='{{ $src }}' alt="{{ .image.Name }}" uk-img>{{ end }}
 <figcaption>{{ .caption | markdownify }}</figcaption>
 </figure>

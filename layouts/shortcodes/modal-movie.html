@@ -1,5 +1,16 @@
-{{ $movie := $.Page.Parent.Resources.Get (.Get 0) }}
-{{ if not $movie }}
-    {{ errorf "movie not found: %v" (.Get 0) }}
+{{ $arg := .Get 0 }}
+{{ if hasPrefix $arg "http" }}
+    {{/* Extract the 11-character YouTube video id from the common URL forms:
+         watch?v=<id>, youtu.be/<id>, youtube.com/embed/<id> */}}
+    {{ $id := replaceRE `^.*(?:[?&]v=|youtu\.be/|/embed/)([A-Za-z0-9_-]{11}).*$` `$1` $arg }}
+    {{ if not (findRE `^[A-Za-z0-9_-]{11}$` $id) }}
+        {{ errorf "unsupported video URL %q - only YouTube URLs and local files are supported" $arg }}
+    {{ end }}
+    {{ partial "modal-movie.html" (dict "youtube" $id "caption" .Inner) }}
+{{ else }}
+    {{ $movie := $.Page.Parent.Resources.Get $arg }}
+    {{ if not $movie }}
+        {{ errorf "movie not found: %v" $arg }}
+    {{ end }}
+    {{ partial "modal-movie.html" (dict "movie" $movie "caption" .Inner) }}
 {{ end }}
-{{ partial "modal-movie.html" (dict "movie" $movie "caption" .Inner) }}

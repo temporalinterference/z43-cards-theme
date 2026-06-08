@@ -2,4 +2,4 @@
 {{ if not $image }}
     {{ errorf "image not found: %v" (.Get 0) }}
 {{ end }}
-{{ partial "modal-image.html" (dict "image" $image "caption" .Inner) | safeHTML }}
+{{ partial "modal-image.html" (dict "image" $image "caption" .Inner "href" (.Get 1)) | safeHTML }}

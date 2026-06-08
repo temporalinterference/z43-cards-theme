@@ -228,6 +228,64 @@ $breakpoint-small: 640px;
   margin-bottom: 48px;
 }
 
+// Responsive 16:9 video embed (YouTube facade + swapped-in iframe)
+.ti-video-embed {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  background: #000;
+
+  img,
+  iframe,
+  .ti-youtube-facade {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  img {
+    object-fit: cover;
+  }
+}
+
+.ti-youtube-facade {
+  display: block;
+  padding: 0;
+  margin: 0;
+  background: none;
+  cursor: pointer;
+
+  .ti-play-badge {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 68px;
+    height: 48px;
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.6);
+    transition: background 0.15s ease;
+  }
+
+  .ti-play-badge::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-40%, -50%);
+    border-style: solid;
+    border-width: 11px 0 11px 19px;
+    border-color: transparent transparent transparent #fff;
+  }
+
+  &:hover .ti-play-badge,
+  &:focus-visible .ti-play-badge {
+    background: $global-emphasis-color;
+  }
+}
+
 // 8. Modal styles
 .ti-modal-body {
   overflow-x: hidden;

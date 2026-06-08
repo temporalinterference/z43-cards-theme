@@ -312,9 +312,25 @@ document.addEventListener('DOMContentLoaded', () => {
 // Handle browser navigation
 window.addEventListener('popstate', () => {
     isProgrammaticModalOperation = true;
-    document.querySelectorAll('.uk-modal.uk-open').forEach(el => 
+    document.querySelectorAll('.uk-modal.uk-open').forEach(el =>
         UIkit.modal(el)?.hide()
     );
     handleModalHash();
     isProgrammaticModalOperation = false;
+});
+
+// YouTube facade: swap the click-to-load thumbnail for the actual iframe.
+// Delegated so it covers every modal already present in the DOM.
+document.addEventListener('click', (e) => {
+    const facade = e.target.closest('.ti-youtube-facade');
+    if (!facade) return;
+    const src = facade.dataset.embed;
+    if (!src) return;
+    const iframe = document.createElement('iframe');
+    iframe.src = src;
+    iframe.setAttribute('allow',
+        'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture');
+    iframe.setAttribute('allowfullscreen', '');
+    iframe.setAttribute('title', facade.getAttribute('aria-label') || 'Video');
+    facade.replaceWith(iframe);
 });

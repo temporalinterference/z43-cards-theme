@@ -1,4 +1,15 @@
 <figure>
+    {{ if .youtube }}
+    <div class="ti-video-embed">
+        <button type="button" class="ti-youtube-facade"
+                data-embed="https://www.youtube-nocookie.com/embed/{{ .youtube }}?autoplay=1"
+                aria-label="Play video">
+            <img src="https://i.ytimg.com/vi/{{ .youtube }}/hqdefault.jpg" alt="" loading="lazy">
+            <span class="ti-play-badge" aria-hidden="true"></span>
+        </button>
+    </div>
+    {{ else }}
     <video src="{{ .movie.RelPermalink }}" playsinline preload="metadata" disablepictureinpicture loop="true" uk-video="autoplay: inview"></video>
+    {{ end }}
 <figcaption>{{ .caption | markdownify }}</figcaption>
 </figure>
